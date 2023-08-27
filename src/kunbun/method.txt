@@ -1,0 +1,17 @@
+Certainly! The else part in the onDragEnd function of your component handles the case where the dragged item is moved from one column to another column. In other words, it manages the scenario where the source column and the destination column are different.
+
+Here's an explanation of what's happening in the else part:
+
+const newStartList = start.list.filter((_, idx) => idx !== source.index);: This line creates a new list for the source column (start). It removes the item that was dragged from its current position by filtering out the item at the source.index.
+
+const newStartCol = { id: start.id, list: newStartList };: Here, a new column object is created for the source column with the updated list. The id remains the same, and the list is updated to newStartList.
+
+const newEndList = [...end.list];: This creates a copy of the list for the destination column (end). We're using the spread operator to make sure we don't modify the original list directly.
+
+newEndList.splice(destination.index, 0, start.list[source.index]);: The item from the source list is inserted into the destination list at the index specified by destination.index. This effectively adds the dragged item to the destination column.
+
+const newEndCol = { id: end.id, list: newEndList };: Similar to the source column, a new column object is created for the destination column with the updated list.
+
+setColumns(state => ({ ...state, [newStartCol.id]: newStartCol, [newEndCol.id]: newEndCol }));: Finally, the setColumns function is used to update the state. The state object (current columns state) is spread, and the newStartCol and newEndCol objects are used to replace the old column objects in the state. This effectively updates both the source and destination columns with their new lists.
+
+In summary, the else part ensures that when an item is dragged from one column to another, the appropriate updates are made to both the source and destination columns in the state, reflecting the movement of the item. This is crucial for maintaining the correct order and contents of the items in the different columns.
